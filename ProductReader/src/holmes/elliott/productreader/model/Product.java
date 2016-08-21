@@ -6,14 +6,16 @@
  */
 package holmes.elliott.productreader.model;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.LinkedList;
 
-public class Product implements Json {
+public class Product {
 
-	private BigDecimal unit_price;
-	private String description;
 	private String title;
 	private String size;
+	private BigDecimal unit_price;
+	private String description;
 
 	/**
 	 * @return the unit_price
@@ -75,4 +77,32 @@ public class Product implements Json {
 		this.size = size;
 	}
 
+	public String toString() {
+		boolean first = true;
+		StringBuilder sb = new StringBuilder("{");
+		for (Field field : this.getClass().getDeclaredFields()) {
+			if (first) {
+				first = false;
+			} else {
+				sb.append(",");
+			}
+			sb.append(ProjectConstants.QUOTES);
+			sb.append(field.getName());
+			sb.append(ProjectConstants.QUOTES);
+			sb.append(": ");
+			try {
+				if (field.getType().getName().equals(LinkedList.class.getName()) || field.getType().getName().equals(BigDecimal.class.getName())) {
+					sb.append(field.get(this));
+				} else {
+					sb.append(ProjectConstants.QUOTES);
+					sb.append(field.get(this));
+					sb.append(ProjectConstants.QUOTES);
+				}
+			} catch (Exception e) {
+				sb.append("");
+			}
+		}
+		sb.append("}");
+		return sb.toString();
+	}
 }

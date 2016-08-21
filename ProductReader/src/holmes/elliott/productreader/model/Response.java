@@ -3,17 +3,22 @@
  */
 package holmes.elliott.productreader.model;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 
-public class Response implements Json {
-	private List<Product> results;
-	private BigDecimal total;
+public class Response {
+	private LinkedList<Product> results;
+	private BigDecimal total = BigDecimal.ZERO;
 
 	/**
 	 * @return the results
 	 */
-	public List<Product> getResults() {
+	public LinkedList<Product> getResults() {
+		if (results == null) {
+			results = new LinkedList<Product>();
+		}
 		return results;
 	}
 
@@ -21,15 +26,22 @@ public class Response implements Json {
 	 * @param results
 	 *            the results to set
 	 */
-	public void setResults(List<Product> results) {
+	public void setResults(LinkedList<Product> results) {
 		this.results = results;
+	}
+
+	public void addResult(Product result) {
+		getResults().add(result);
+		total = total.add(result.getUnit_price());
 	}
 
 	/**
 	 * @return the total
 	 */
 	public BigDecimal getTotal() {
-		return total;
+		BigDecimal newTotal = BigDecimal.ZERO;
+		results.forEach(result -> newTotal.add(result.getUnit_price()));
+		return newTotal;
 	}
 
 	/**
@@ -40,4 +52,32 @@ public class Response implements Json {
 		this.total = total;
 	}
 
+	public String toString() {
+		boolean first = true;
+		StringBuilder sb = new StringBuilder("{");
+		for (Field field : this.getClass().getDeclaredFields()) {
+			if (first) {
+				first = false;
+			} else {
+				sb.append(",");
+			}
+			sb.append(ProjectConstants.QUOTES);
+			sb.append(field.getName());
+			sb.append(ProjectConstants.QUOTES);
+			sb.append(": ");
+			try {
+				if (field.getType().getName().equals(LinkedList.class.getName()) || field.getType().getName().equals(BigDecimal.class.getName())) {
+					sb.append(field.get(this));
+				} else {
+					sb.append(ProjectConstants.QUOTES);
+					sb.append(field.get(this));
+					sb.append(ProjectConstants.QUOTES);
+				}
+			} catch (Exception e) {
+				sb.append("");
+			}
+		}
+		sb.append("}");
+		return sb.toString();
+	}
 }

@@ -14,6 +14,9 @@ public class URLResponseObject {
 	 * @return the responseSize
 	 */
 	public BigDecimal getResponseSize() {
+		if (responseSize == null) {
+			responseSize = BigDecimal.ZERO;
+		}
 		return responseSize;
 	}
 
