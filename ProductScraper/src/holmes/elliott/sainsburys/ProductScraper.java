@@ -52,7 +52,7 @@ public class ProductScraper {
 		}
 		System.out.println(productController.getResponse());
 		long endTime = Calendar.getInstance().getTimeInMillis();
-		
+		System.out.println("Processing Time = " + (endTime - startTime) + "ms");
 	}
 
 }
