@@ -14,7 +14,6 @@ import holmes.elliott.sainsburys.controller.ProductController;
 import holmes.elliott.sainsburys.controller.URLController;
 import holmes.elliott.sainsburys.model.Response;
 
-
 /**
  * @author holmese
  *
@@ -27,7 +26,7 @@ public class ProductScraper {
 	public static void main(String[] args) {
 		// Check the URL we have been passed in the first place and that it is a
 		// valid URL
-		System.out.println(Calendar.getInstance().getTimeInMillis());
+		long startTime = Calendar.getInstance().getTimeInMillis();
 		URLController urlController = new URLController();
 		if (args.length == 0 || !urlController.validateURL(args[0])) {
 			System.out.println("No valid URL specified as primary argument");
@@ -52,7 +51,8 @@ public class ProductScraper {
 			e.printStackTrace();
 		}
 		System.out.println(productController.getResponse());
-		System.out.println(Calendar.getInstance().getTimeInMillis());
+		long endTime = Calendar.getInstance().getTimeInMillis();
+		
 	}
 
 }

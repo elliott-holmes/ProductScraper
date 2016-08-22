@@ -4,6 +4,7 @@
  */
 
 package holmes.elliott.sainsburys.controller;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -16,7 +17,8 @@ public class URLController {
 	/**
 	 * Method to check if passed string is valid http(s) URL.
 	 * 
-	 * @param @String url - URL To validate
+	 * @param @String
+	 *            url - URL To validate
 	 * @return @boolean - If the URL is a http/https URL.
 	 */
 	public boolean validateURL(String url) {
@@ -36,10 +38,11 @@ public class URLController {
 	 */
 	public HttpURLConnection getURL(String urlToLoad) {
 		try {
-			//Connect to the URL
+			// Connect to the URL
 			URL url = new URL(urlToLoad);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-			//Check the response code is a good response code (<400 is usually good)
+			// Check the response code is a good response code (<400 is usually
+			// good)
 			if (urlConnection.getResponseCode() >= 400) {
 				System.err.println("Error connecting to URL. PLease check the URL and try again");
 				urlConnection = null;
@@ -47,11 +50,13 @@ public class URLController {
 			return urlConnection;
 
 		} catch (MalformedURLException mfe) {
-			//Problem with the format of the URL, this may mean a character that should not be valid.
+			// Problem with the format of the URL, this may mean a character
+			// that should not be valid.
 			System.err.println("Error loading URL. PLease check the URL syntax and try again");
 		} catch (IOException e) {
-			//Problem with external connection to URL.
-			System.err.println("Error connecting to URL. Please check url is correct and you have a working connection.");
+			// Problem with external connection to URL.
+			System.err
+					.println("Error connecting to URL. Please check url is correct and you have a working connection.");
 		}
 		return null;
 	}

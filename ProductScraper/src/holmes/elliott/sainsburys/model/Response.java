@@ -63,9 +63,10 @@ public class Response {
 			sb.append(ProjectConstants.QUOTES);
 			sb.append(field.getName());
 			sb.append(ProjectConstants.QUOTES);
-			sb.append(ProjectConstants.JSON_SEP);
+			sb.append(ProjectConstants.JSON_PAIR);
 			try {
-				if (field.getType().getName().equals(LinkedList.class.getName()) || field.getType().getName().equals(BigDecimal.class.getName())) {
+				if (field.getType().getName().equals(LinkedList.class.getName())
+						|| field.getType().getName().equals(BigDecimal.class.getName())) {
 					sb.append(field.get(this));
 				} else {
 					sb.append(ProjectConstants.QUOTES);
