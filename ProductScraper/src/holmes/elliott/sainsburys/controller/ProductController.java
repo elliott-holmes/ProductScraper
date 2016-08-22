@@ -52,7 +52,7 @@ public class ProductController {
 					URLResponseObject productSubResponse = getSizeAndDescriptionforProduct(subProductUrl);
 					if (productSubResponse != null) {
 						product.setSize(productSubResponse.getResponseSize()
-								.divide(ProjectConstants.ONE_THOUSAND, 0, BigDecimal.ROUND_HALF_UP).toString() + "kb");
+								.divide(ProjectConstants.ONE_THOUSAND, 1, BigDecimal.ROUND_HALF_UP).toString() + "kb");
 						product.setDescription(productSubResponse.getDescription());
 					}
 					// and the next line is the title
